@@ -1,0 +1,56 @@
+<h1>Care Providers List ....</h1>
+
+<p>..........data.medicare.gov..........</p>
+
+<p *ngIf="!displaycareproviders"><em>Loading...</em></p>
+
+<div class="form-group well">
+    <label for="ProviderNumber">Provider Number:</label><input [value]="providernumber" (blur)="providernumber=$event.target.value;" />
+    <br/>
+    <label for="ProviderName">Provider Name:</label><input [value]="providername" (blur)="providername=$event.target.value;"/>
+    <br/>
+    <label for="ZipCode">Zip Code:</label><input [value]="zipcode" (blur)="zipcode=$event.target.value;"/>
+    <br/>
+    <button (click)="onSearch()">Search</button>
+    <br/>
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(1)">First</a>        
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page)">{{page}}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages)">Last</a>
+        </li>
+    </ul>
+</div>
+
+<table class='table' *ngIf="displaycareproviders">
+    <thead>
+        <tr>
+            <th>S.No</th>
+            <th>Provider Name</th>
+            <th>Provider Number</th>
+            <th>Address</th>
+            <th>Zip Code</th> 
+            <th>Phone Number</th> 
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let careprovider of displaycareproviders; let i = index">
+            <th>{{i+1}}</th>
+            <th>{{careprovider.provider_name}}</th>
+            <th>{{careprovider.federal_provider_number}}</th>
+            <th>{{careprovider.provider_address}},&nbsp;{{careprovider.provider_city}}</th>
+            <th>{{careprovider.provider_zip_code}}</th>
+            <th>{{careprovider.provider_phone_number.phone_number}}</th>
+        </tr>
+    </tbody>
+</table>
